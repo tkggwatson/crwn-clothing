@@ -1,11 +1,20 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
+
 import './App.css';
-import HomePage from './pages/homepage/homepage.component';
+
+export const HatsPage = () => (
+  <main>
+    <h1>HATS PAGE</h1>
+  </main>
+);
 
 function App() {
-  return <div>
-    <HomePage />
-  </div>;
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
 }
 
 export default App;
