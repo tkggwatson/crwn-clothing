@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './index.css';
-import App, { HatsPage } from './App';
 
+import App from './App';
 import HomePage from './pages/homepage/homepage.component'
+import ShopPage from './pages/shop/shop.component';
 
 import reportWebVitals from './reportWebVitals';
 
@@ -15,7 +16,7 @@ ReactDOM.render(
       <Routes>
         <Route path='/' element={<App />}>
           <Route index element={<HomePage />} />
-          <Route path='shop/hats' element={<HatsPage />} />
+          <Route path='shop' element={<ShopPage />} />
           <Route
             path="*"
             element={
