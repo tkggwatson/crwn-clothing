@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import './menu-item.style.scss';
+import './menu-item.styles.scss';
 
 const MenuItem = ({ title, imageUrl, size, linkUrl }) => (
     <Link className={`${size} menu-item`} to={linkUrl}>
