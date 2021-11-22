@@ -7,6 +7,7 @@ import './index.css';
 import App from './App';
 import HomePage from './pages/homepage/homepage.component'
 import ShopPage from './pages/shop/shop.component';
+import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 
 import reportWebVitals from './reportWebVitals';
 
@@ -17,6 +18,7 @@ ReactDOM.render(
         <Route path='/' element={<App />}>
           <Route index element={<HomePage />} />
           <Route path='shop' element={<ShopPage />} />
+          <Route path='signin' element={<SignInAndSignUpPage />} />
           <Route
             path="*"
             element={
