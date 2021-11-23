@@ -1,16 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { getAuth, signOut } from 'firebase/auth';
+import { signOutFromFirebase } from '../../firebase/firebase.utils';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 import './header.styles.scss';
-
-const handleSignOut = () => {
-    const auth = getAuth();
-    signOut(auth);
-};
 
 const Header = ({ currentUser }) => (
     <div className='header'>
@@ -25,7 +20,7 @@ const Header = ({ currentUser }) => (
                 CONTACT
             </Link>
             {currentUser ? (
-                <div className='option' onClick={handleSignOut}>
+                <div className='option' onClick={signOutFromFirebase}>
                     SIGN OUT
                 </div>
             ) : (
