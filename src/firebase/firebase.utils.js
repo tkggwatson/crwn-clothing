@@ -29,8 +29,8 @@ const app = initializeApp(firebaseConfig);
 
 // eslint-disable-next-line
 const analytics = getAnalytics(app);
-const auth = getAuth();
-const firestore = getFirestore();
+const auth = getAuth(app);
+const firestore = getFirestore(app);
 
 // Setup Google auth
 const provider = new GoogleAuthProvider();
