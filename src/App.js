@@ -9,6 +9,7 @@ import {
 import Header from './components/header/header.component';
 
 import './App.css';
+import { onSnapshot } from '@firebase/firestore';
 
 class App extends React.Component {
     constructor() {
@@ -23,9 +24,21 @@ class App extends React.Component {
 
     componentDidMount() {
         // Subscribe for auth notifications
-        this.unsubscribeFromAuth = onUserAuthStateChanged(async (user) => {
-            this.setState({ currentUser: user });
-            createUserProfileDocument(user);
+        this.unsubscribeFromAuth = onUserAuthStateChanged(async (userAuth) => {
+            if (userAuth) {
+                const userRef = await createUserProfileDocument(userAuth);
+
+                onSnapshot(userRef, (snapshot) => {
+                    this.setState({
+                        currentUser: {
+                            id: snapshot.id,
+                            ...snapshot.data(),
+                        },
+                    });
+                });
+            } else {
+                this.setState({ currentUser: null });
+            }
         });
     }
 
