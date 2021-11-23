@@ -1,7 +1,10 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {
+    createUserProfileDocument,
+    onUserAuthStateChanged,
+} from './firebase/firebase.utils';
 
 import Header from './components/header/header.component';
 
@@ -20,9 +23,9 @@ class App extends React.Component {
 
     componentDidMount() {
         // Subscribe for auth notifications
-        const auth = getAuth();
-        this.unsubscribeFromAuth = onAuthStateChanged(auth, (user) => {
+        this.unsubscribeFromAuth = onUserAuthStateChanged(async (user) => {
             this.setState({ currentUser: user });
+            createUserProfileDocument(user);
         });
     }
 
