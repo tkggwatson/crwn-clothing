@@ -53,9 +53,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         return;
     }
 
-    console.log(userAuth);
     const userRef = doc(firestore, `users/${userAuth.uid}`);
-    console.log(userRef);
     const snapshot = await getDoc(userRef);
 
     if (!snapshot.exists()) {
@@ -70,7 +68,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
                 ...additionalData,
             });
         } catch (error) {
-            console.log('Error creating user: ', error.message);
+            console.error('Error creating user: ', error.message);
         }
     }
 
