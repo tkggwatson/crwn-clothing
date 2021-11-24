@@ -1,43 +1,35 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { onSnapshot } from '@firebase/firestore';
 
-import {
-    createUserProfileDocument,
-    onUserAuthStateChanged,
-} from './firebase/firebase.utils';
+import { createUserProfileDocument, onUserAuthStateChanged } from './firebase/firebase.utils';
+import { setCurrentUser } from './redux/user/user.actions';
 
 import Header from './components/header/header.component';
 
 import './App.css';
-import { onSnapshot } from '@firebase/firestore';
 
 class App extends React.Component {
-    constructor() {
-        super();
-
-        this.state = {
-            currentUser: null,
-        };
-    }
-
     unsubscribeFromAuth = null;
 
     componentDidMount() {
+        const { setCurrentUser } = this.props;
+
         // Subscribe for auth notifications
         this.unsubscribeFromAuth = onUserAuthStateChanged(async (userAuth) => {
             if (userAuth) {
                 const userRef = await createUserProfileDocument(userAuth);
 
                 onSnapshot(userRef, (snapshot) => {
-                    this.setState({
-                        currentUser: {
+                    setCurrentUser({
                             id: snapshot.id,
                             ...snapshot.data(),
                         },
-                    });
+                    );
                 });
             } else {
-                this.setState({ currentUser: null });
+                setCurrentUser(null);
             }
         });
     }
@@ -50,11 +42,15 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <Header currentUser={this.state.currentUser} />
+                <Header />
                 <Outlet />
             </div>
         );
     }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => ({
+    setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(null, mapDispatchToProps)(App);
