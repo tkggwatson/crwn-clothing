@@ -14,6 +14,7 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import PageNotFound from './pages/page-not-found/page-not-found.component';
+import CheckoutPage from './pages/checkout/checkout.component';
 
 import './App.css';
 
@@ -57,6 +58,7 @@ class App extends React.Component {
                             path='signin'
                             element={currentUser ? <Navigate replace to='/' /> : <SignInAndSignUpPage />}
                         />
+                        <Route path='checkout' element={<CheckoutPage />} />
                         <Route path='*' element={<PageNotFound />} />
                     </Route>
                 </Routes>
