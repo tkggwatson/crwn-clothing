@@ -12,7 +12,6 @@ import { selectCurrentUser } from './redux/user/user.selector';
 import Layout from './components/layout/layout.component';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
-import CollectionPage from './pages/collection/collection.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import PageNotFound from './pages/page-not-found/page-not-found.component';
 import CheckoutPage from './pages/checkout/checkout.component';
@@ -54,10 +53,7 @@ class App extends React.Component {
                 <Routes>
                     <Route path='/' element={<Layout />}>
                         <Route index element={<HomePage />} />
-                        <Route path='shop'>
-                            <Route index element={<ShopPage />} />
-                            <Route path=':collectionId' element={<CollectionPage />} />
-                        </Route>
+                        <Route path='shop/*' element={<ShopPage />} />
                         <Route
                             path='signin'
                             element={currentUser ? <Navigate replace to='/' /> : <SignInAndSignUpPage />}
