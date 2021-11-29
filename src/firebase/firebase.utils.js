@@ -24,7 +24,7 @@ const app = initializeApp(firebaseConfig);
 // eslint-disable-next-line
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
-const firestore = getFirestore(app);
+export const firestore = getFirestore(app);
 
 // Setup Google auth
 const provider = new GoogleAuthProvider();
@@ -73,10 +73,27 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
     const collectionRef = collection(firestore, collectionKey);
 
     const batch = writeBatch(firestore);
-    objectsToAdd.forEach(obj => {
+    objectsToAdd.forEach((obj) => {
         const newDocRef = doc(collectionRef);
         batch.set(newDocRef, obj);
     });
-    
+
     return await batch.commit();
+};
+
+export const convertCollectionsSnapshopToMap = (collection) => {
+    const transformedCollection = collection.docs.map((doc) => {
+        const { title, items } = doc.data();
+        return {
+            routeName: encodeURI(title.toLowerCase()),
+            id: doc.id,
+            title,
+            items,
+        };
+    });
+
+    return transformedCollection.reduce((accumulator, collection) => {
+        accumulator[collection.title.toLowerCase()] = collection;
+        return accumulator;
+    }, {});
 };
