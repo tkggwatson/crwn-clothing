@@ -2,11 +2,12 @@ import React from 'react';
 
 import { createUserWithEmailAndPassword, getAuth } from '@firebase/auth';
 
+import { createUserProfileDocument } from '../../firebase/firebase.utils';
+
 import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
 
-import './sign-up.styles.scss';
-import { createUserProfileDocument } from '../../firebase/firebase.utils';
+import { SignUpContainer, SignUpTitle } from './sign-up.styles';
 
 class SignUp extends React.Component {
     constructor() {
@@ -33,7 +34,7 @@ class SignUp extends React.Component {
         try {
             const auth = getAuth();
             const { user } = await createUserWithEmailAndPassword(auth, email, password);
-            
+
             await createUserProfileDocument(user, { displayName });
 
             this.setState({
@@ -42,8 +43,7 @@ class SignUp extends React.Component {
                 password: '',
                 confirmPassword: '',
             });
-
-        } catch(error) {
+        } catch (error) {
             console.error(error);
         }
     };
@@ -55,8 +55,8 @@ class SignUp extends React.Component {
 
     render() {
         return (
-            <div className='sign-up'>
-                <h2 className='title'>I do not have an account</h2>
+            <SignUpContainer>
+                <SignUpTitle>I do not have an account</SignUpTitle>
                 <span>Sign up with your email and password</span>
                 <form className='sign-up-form' onSubmit={this.handleSubmit}>
                     <FormInput
@@ -95,7 +95,7 @@ class SignUp extends React.Component {
                         <CustomButton type='submit'>Sign up</CustomButton>
                     </div>
                 </form>
-            </div>
+            </SignUpContainer>
         );
     }
 }
