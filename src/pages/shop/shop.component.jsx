@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
-import { collection, onSnapshot } from '@firebase/firestore';
+import { collection, getDocs } from '@firebase/firestore';
 
 import { convertCollectionsSnapshopToMap, firestore } from '../../firebase/firebase.utils';
 
@@ -19,21 +19,16 @@ class ShopPage extends React.Component {
         loading: true,
     };
 
-    unsubscribeFromSnapshot = null;
-
     componentDidMount() {
         const { updateCollections } = this.props;
 
         const collectionRef = collection(firestore, 'collections');
-        this.unsubscribeFromSnapshot = onSnapshot(collectionRef, async (snapshot) => {
+
+        getDocs(collectionRef).then((snapshot) => {
             const collections = convertCollectionsSnapshopToMap(snapshot);
             updateCollections(collections);
             this.setState({ loading: false });
         });
-    }
-
-    componentWillUnmount() {
-        this.unsubscribeFromSnapshot();
     }
 
     render() {
