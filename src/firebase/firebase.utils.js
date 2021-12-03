@@ -31,9 +31,18 @@ export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 
-// Sign in/out callback
-export const onUserAuthStateChanged = (callback) => {
-    return onAuthStateChanged(auth, callback);
+// Check if a user is already signed in
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            (userAuth) => {
+                unsubscribe();
+                resolve(userAuth);
+            },
+            reject
+        );
+    });
 };
 
 // Sign out helper
