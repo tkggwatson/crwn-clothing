@@ -45,11 +45,6 @@ export const getCurrentUser = () => {
     });
 };
 
-// Sign out helper
-export const signOutFromFirebase = () => {
-    signOut(auth);
-};
-
 // Create a new user profile
 export const createUserProfileDocument = async (userAuth, additionalData) => {
     if (!userAuth) {
