@@ -22,14 +22,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // eslint-disable-next-line
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
+export const analytics = getAnalytics(app);
+export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 
 // Setup Google auth
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => signInWithPopup(auth, provider);
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
+export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 
 // Sign in/out callback
 export const onUserAuthStateChanged = (callback) => {
