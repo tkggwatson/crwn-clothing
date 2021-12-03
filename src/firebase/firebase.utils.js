@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc, collection, writeBatch } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -22,23 +22,26 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // eslint-disable-next-line
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
+export const analytics = getAnalytics(app);
+export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 
 // Setup Google auth
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => signInWithPopup(auth, provider);
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
-// Sign in/out callback
-export const onUserAuthStateChanged = (callback) => {
-    return onAuthStateChanged(auth, callback);
-};
-
-// Sign out helper
-export const signOutFromFirebase = () => {
-    signOut(auth);
+// Check if a user is already signed in
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            (userAuth) => {
+                unsubscribe();
+                resolve(userAuth);
+            },
+            reject
+        );
+    });
 };
 
 // Create a new user profile
