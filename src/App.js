@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -15,39 +15,35 @@ import CheckoutPage from './pages/checkout/checkout.component';
 
 import './App.css';
 
-class App extends React.Component {
-    componentDidMount() {
-        const { checkUserSession } = this.props;
+const App = ({ checkUserSession, currentUser }) => {
+    useEffect(() => {
         checkUserSession();
-    }
+    }, [checkUserSession]);
 
-    render() {
-        const { currentUser } = this.props;
-        return (
-            <div>
-                <Routes>
-                    <Route path='/' element={<Layout />}>
-                        <Route index element={<HomePage />} />
-                        <Route path='shop/*' element={<ShopPage />} />
-                        <Route
-                            path='signin'
-                            element={currentUser ? <Navigate replace to='/' /> : <SignInAndSignUpPage />}
-                        />
-                        <Route path='checkout' element={<CheckoutPage />} />
-                        <Route path='*' element={<PageNotFound />} />
-                    </Route>
-                </Routes>
-            </div>
-        );
-    }
-}
+    return (
+        <div>
+            <Routes>
+                <Route path='/' element={<Layout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path='shop/*' element={<ShopPage />} />
+                    <Route
+                        path='signin'
+                        element={currentUser ? <Navigate replace to='/' /> : <SignInAndSignUpPage />}
+                    />
+                    <Route path='checkout' element={<CheckoutPage />} />
+                    <Route path='*' element={<PageNotFound />} />
+                </Route>
+            </Routes>
+        </div>
+    );
+};
 
 const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    checkUserSession: () => dispatch(checkUserSession())
+    checkUserSession: () => dispatch(checkUserSession()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
