@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { selectCurrentUser } from './redux/user/user.selector';
 import { checkUserSession } from './redux/user/user.actions';
@@ -15,39 +14,30 @@ import CheckoutPage from './pages/checkout/checkout.component';
 
 import './App.css';
 
-class App extends React.Component {
-    componentDidMount() {
-        const { checkUserSession } = this.props;
-        checkUserSession();
-    }
+const App = () => {
+    const currentUser = useSelector(selectCurrentUser);
+    const dispatch = useDispatch();
 
-    render() {
-        const { currentUser } = this.props;
-        return (
-            <div>
-                <Routes>
-                    <Route path='/' element={<Layout />}>
-                        <Route index element={<HomePage />} />
-                        <Route path='shop/*' element={<ShopPage />} />
-                        <Route
-                            path='signin'
-                            element={currentUser ? <Navigate replace to='/' /> : <SignInAndSignUpPage />}
-                        />
-                        <Route path='checkout' element={<CheckoutPage />} />
-                        <Route path='*' element={<PageNotFound />} />
-                    </Route>
-                </Routes>
-            </div>
-        );
-    }
-}
+    useEffect(() => {
+        dispatch(checkUserSession());
+    }, [dispatch]);
 
-const mapStateToProps = createStructuredSelector({
-    currentUser: selectCurrentUser,
-});
+    return (
+        <div>
+            <Routes>
+                <Route path='/' element={<Layout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path='shop/*' element={<ShopPage />} />
+                    <Route
+                        path='signin'
+                        element={currentUser ? <Navigate replace to='/' /> : <SignInAndSignUpPage />}
+                    />
+                    <Route path='checkout' element={<CheckoutPage />} />
+                    <Route path='*' element={<PageNotFound />} />
+                </Route>
+            </Routes>
+        </div>
+    );
+};
 
-const mapDispatchToProps = (dispatch) => ({
-    checkUserSession: () => dispatch(checkUserSession())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

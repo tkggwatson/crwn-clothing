@@ -10,6 +10,7 @@ import { CollectionPageContainer, CollectionTitle, CollectionItemsContainer } fr
 const CollectionPage = () => {
     const { collectionId } = useParams();
     const { title, items } = useSelector(selectShopCollection(collectionId)) ?? {};
+    
     return (
         <CollectionPageContainer>
             <CollectionTitle>{title.toUpperCase()}</CollectionTitle>
