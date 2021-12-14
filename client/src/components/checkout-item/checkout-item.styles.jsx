@@ -35,9 +35,19 @@ export const ArrowContainer = styled.div`
 export const ValueContainer = styled(TextContainer)`
     margin: 0 10px;
     text-align: center;
+
+    @media screen and (max-width: 800px) {
+        margin: 0 5px;
+    }
 `;
 
 export const RemoveButton = styled.div`
     padding-left: 12px;
     cursor: pointer;
+    text-align: right;
+    width: 8%;
+
+    @media screen and (max-width: 800px) {
+        width: 12%;
+    }
 `;

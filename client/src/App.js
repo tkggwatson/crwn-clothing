@@ -12,7 +12,7 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 import PageNotFound from './pages/page-not-found/page-not-found.component';
 import CheckoutPage from './pages/checkout/checkout.component';
 
-import './App.css';
+import { GlobalStyle } from './global.styles';
 
 const App = () => {
     const currentUser = useSelector(selectCurrentUser);
@@ -24,6 +24,7 @@ const App = () => {
 
     return (
         <div>
+            <GlobalStyle />
             <Routes>
                 <Route path='/' element={<Layout />}>
                     <Route index element={<HomePage />} />
