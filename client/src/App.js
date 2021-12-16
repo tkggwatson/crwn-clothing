@@ -5,11 +5,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentUser } from './redux/user/user.selector';
 import { checkUserSession } from './redux/user/user.actions';
 
-import Layout from './components/layout/layout.component';
 import PageNotFound from './pages/page-not-found/page-not-found.component';
 import Spinner from './components/spinner/spinner.component';
 
 import { GlobalStyle } from './global.styles';
+import ErrorBoundary from './components/error-boundary/error-boundary.component';
+import Header from './components/header/header.component';
 
 const HomePage = lazy(() => import('./pages/homepage/homepage.component'));
 const ShopPage = lazy(() => import('./pages/shop/shop.component'));
@@ -27,20 +28,23 @@ const App = () => {
     return (
         <div>
             <GlobalStyle />
-            <Suspense fallback={<Spinner />}>
-                <Routes>
-                    <Route path='/' element={<Layout />}>
-                        <Route index element={<HomePage />} />
-                        <Route path='shop/*' element={<ShopPage />} />
-                        <Route
-                            path='signin'
-                            element={currentUser ? <Navigate replace to='/' /> : <SignInAndSignUpPage />}
-                        />
-                        <Route path='checkout' element={<CheckoutPage />} />
-                        <Route path='*' element={<PageNotFound />} />
-                    </Route>
-                </Routes>
-            </Suspense>
+            <Header />
+            <ErrorBoundary>
+                <Suspense fallback={<Spinner />}>
+                    <Routes>
+                        <Route path='/'>
+                            <Route index element={<HomePage />} />
+                            <Route path='shop/*' element={<ShopPage />} />
+                            <Route
+                                path='signin'
+                                element={currentUser ? <Navigate replace to='/' /> : <SignInAndSignUpPage />}
+                            />
+                            <Route path='checkout' element={<CheckoutPage />} />
+                            <Route path='*' element={<PageNotFound />} />
+                        </Route>
+                    </Routes>
+                </Suspense>
+            </ErrorBoundary>
         </div>
     );
 };
