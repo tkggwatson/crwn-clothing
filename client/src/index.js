@@ -30,4 +30,6 @@ ReactDOM.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
+console.log('PUBLIC_URL = ', process.env.PUBLIC_URL);
+
 serviceWorker.register();
