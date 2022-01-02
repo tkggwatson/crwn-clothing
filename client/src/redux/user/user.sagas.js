@@ -4,7 +4,7 @@ import { getDoc } from '@firebase/firestore';
 
 import { auth, createUserProfileDocument, getCurrentUser, googleProvider } from '../../firebase/firebase.utils';
 
-import UserActionTypes from './user.types';
+import { UserActionTypes } from './user.types';
 import {
     signInFailure,
     signInSuccess,
